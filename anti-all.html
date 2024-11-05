@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Existing CSS code remains unchanged */
+  </style>
+  <script>
+    // Direct links to be displayed
+    const links = [
+      'https://www.profitablecpmrate.com/rrcjgi9amr?key=c2cb780db819a13254c7e1ca56484003', 
+      'https://www.profitablecpmrate.com/ydqk5jdig?key=f67d015f731e8e5cfdf6740d2767775f', 
+      'https://www.profitablecpmrate.com/q8etzxwz?key=cca441b6f25d9008e6955f9e83511bc2', 
+      'https://www.profitablecpmrate.com/ixjae50ghe?key=5ae2dcaf81086ce4d0cba61136de6d26'
+    ];
+
+    let currentIndex = 0;
+    let autoNavigateInterval;
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function refreshPage(interval = 250000) {
+      setInterval(() => {
+        location.reload();
+      }, interval);
+    }
+
+    function getCurrentLink() {
+      return links[currentIndex];
+    }
+
+    function showLink(index) {
+      currentIndex = index;
+      const iframe = document.getElementById('modalIframe');
+      const modal = document.getElementById('myModal');
+      const spinner = document.getElementById('spinner');
+      iframe.src = getCurrentLink();
+      modal.style.display = 'flex';
+      spinner.style.display = 'block';
+      iframe.onload = () => {
+        spinner.style.display = 'none';
+      };
+      clearInterval(autoNavigateInterval);
+      autoNavigateInterval = setInterval(() => {
+        navigate(1);
+      }, Math.floor(Math.random() * (30000 - 20000 + 1) + 20000));
+    }
+
+    function navigate(direction) {
+      const totalLinks = links.length;
+      currentIndex = (currentIndex + direction + totalLinks) % totalLinks;
+      showLink(currentIndex);
+    }
+
+    function goToSite() {
+      // Open the link in a new tab without exposing user-agent or referrer headers
+      const currentLink = getCurrentLink();
+      const anchor = document.createElement('a');
+      anchor.href = currentLink;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener noreferrer'; // Avoid referrer exposure
+      anchor.click();
+    }
+
+    function closeModal() {
+      document.getElementById('myModal').style.display = 'none';
+      document.getElementById('modalIframe').src = '';
+      document.getElementById('fallback').style.display = 'flex';
+      clearInterval(autoNavigateInterval);
+    }
+
+    function reopenModal() {
+      showLink(currentIndex);
+    }
+
+    window.onload = function () {
+      shuffleArray(links);
+      refreshPage();
+      showLink(0);
+    };
+  </script>
+</head>
+<body>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="arrow-btn" onclick="navigate(-1)"><i class="fas fa-arrow-left"></i></button>
+        <h2>OMG Link Viewer</h2>
+        <button class="arrow-btn" onclick="navigate(1)"><i class="fas fa-arrow-right"></i></button>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="spinner" id="spinner"></div>
+      <iframe id="modalIframe"></iframe>
+      <div class="nav-buttons">
+        <button class="go-btn" onclick="goToSite()"><i class="fas fa-external-link-alt"></i> Go to Site</button>
+      </div>
+    </div>
+  </div>
+  <div id="fallback" class="fallback">
+    <button class="show-modal-btn" onclick="reopenModal()">View Links</button>
+  </div>
+</body>
+</html>
