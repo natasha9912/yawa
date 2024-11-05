@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Reels Viewer - Infinite Loop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background-color: #212121;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+    .start-button {
+      background-color: #49ed00;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.5em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(73, 237, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+    .start-button:hover {
+      transform: scale(1.1);
+    }
+    .start-button:active {
+      box-shadow: 0 0 15px rgba(73, 237, 0, 0.7);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Facebook Reels Viewer</h1>
+    <p>Click below to start watching the Reels!</p>
+    <button class="start-button" onclick="startWatchingReels()">Start Watching Reels</button>
+  </div>
+
+  <script>
+    // Facebook Reels URL
+    const reelURL = 'https://www.facebook.com/reel/https://www.facebook.com/reel/904604891545169'; // Replace with your actual reel URL
+
+    // List of user-agent strings to rotate through
+    const userAgents = [
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.64",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/89.0 Safari/537.36"
+    ];
+
+    // Simulate a random delay between actions (human-like behavior)
+    function randomDelay(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    // Change the user-agent to simulate different browsing sessions
+    function changeUserAgent() {
+      const randomUserAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
+      navigator.__defineGetter__('userAgent', function() {
+        return randomUserAgent;
+      });
+    }
+
+    // Open a new tab with the Facebook Reel URL
+    function openReel() {
+      window.open(reelURL, '_blank');
+    }
+
+    // Function to simulate an infinite loop of watching the same reel
+    function loopReels() {
+      // Open the reel
+      openReel();
+      changeUserAgent(); // Rotate user-agent for each action
+
+      // Random delay between 15 to 30 seconds (to simulate human interaction)
+      const delay = randomDelay(15000, 30000);
+      setTimeout(() => {
+        loopReels(); // Recursive call to continue the loop
+      }, delay);
+    }
+
+    // Start the loop when the button is clicked
+    function startWatchingReels() {
+      loopReels(); // Start the infinite loop of watching reels
+    }
+  </script>
+
+</body>
+</html>
