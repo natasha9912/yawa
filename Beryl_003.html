@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #1a1a1a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at top left, rgba(73, 237, 0, 0.3), rgba(0, 0, 0, 0.85));
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #212121;
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      text-align: center;
+      position: relative;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.5em;
+      color: #49ed00;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      margin-top: 0;
+      box-shadow: none;
+    }
+
+    .fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .show-modal-btn {
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5em;
+      color: #ffffff;
+      background-color: transparent;
+      padding: 10px 20px;
+      border: 2px solid #49ed00;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 10px rgba(73, 237, 0, 0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+  </style>
+  <script>
+    let links = [
+      'https://www.profitablecpmrate.com/c4vavdxz?key=70aef3aa8b6fe5b0e31c51ab8c9d7f3d', // Link 1
+      'https://www.profitablecpmrate.com/ia5eb85v?key=f8f335d1c7433cace574d7503b85970c', // Link 2
+      'https://www.profitablecpmrate.com/rxakfxv0p?key=04e1b5c0246208dca34b1496ee6a248d', // Link 3
+      'https://www.profitablecpmrate.com/rkbkmc71?key=2948713783df9a5e5ad8c1a7b96d52c3'  // Link 4
+    ];
+    let currentIndex = 0;
+    let autoNavigateInterval;
+
+    // Simulate Random Delays (to mimic human behavior)
+    function randomDelay(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    // Simulate User-Agent Switching (for realism)
+    const userAgents = [
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.64"
+    ];
+
+    // Randomly select a user-agent to simulate real browsing
+    function changeUserAgent() {
+      const randomUserAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
+      navigator.__defineGetter__('userAgent', function() {
+        return randomUserAgent;
+      });
+    }
+
+    // Show a link in the modal
+    function showLink(index) {
+      currentIndex = index;
+      const iframe = document.getElementById('modalIframe');
+      const modal = document.getElementById('myModal');
+      const spinner = document.getElementById('spinner');
+      iframe.src = links[currentIndex];
+      modal.style.display = 'flex';
+      spinner.style.display = 'block';
+      iframe.onload = () => {
+        spinner.style.display = 'none';
+      };
+
+      // Simulate realistic human delays between navigation
+      const delay = randomDelay(5000, 15000); // 5 to 15 seconds delay
+      clearInterval(autoNavigateInterval);
+      autoNavigateInterval = setInterval(() => {
+        navigate(1); // Loop through the links
+      }, delay);
+      
+      // Simulate a click or user interaction
+      setTimeout(() => {
+        changeUserAgent();
+      }, randomDelay(1000, 3000)); // Change User-Agent after a delay
+    }
+
+    // Navigate through links with randomized intervals
+    function navigate(direction) {
+      const totalLinks = links.length;
+      currentIndex = (currentIndex + direction + totalLinks) % totalLinks;
+      showLink(currentIndex);
+    }
+
+    // Open the current link in a new window (human-like interaction)
+    function goToSite() {
+      // Open the link with a delay to mimic real human-like interaction
+      setTimeout(() => {
+        window.open(links[currentIndex], '_blank');
+      }, randomDelay(1000, 3000)); // Random delay before opening the link
+    }
+
+    // Close the modal with human-like behavior
+    function closeModal() {
+      document.getElementById('myModal').style.display = 'none';
+      document.getElementById('modalIframe').src = '';
+      document.getElementById('fallback').style.display = 'flex';
+      clearInterval(autoNavigateInterval);
+    }
+
+    // Reopen modal and resume navigation
+    function reopenModal() {
+      showLink(currentIndex);
+    }
+
+    // Start the infinite loop as soon as the page loads
+    window.onload = function () {
+      showLink(0); // Start from the first link
+    };
+  </script>
+</head>
+
+<body>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="arrow-btn" onclick="navigate(-1)"><i class="fas fa-arrow-left"></i></button>
+        <h2>OMG Link Viewer</h2>
+        <button class="arrow-btn" onclick="navigate(1)"><i class="fas fa-arrow-right"></i></button>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="spinner" id="spinner"></div>
+      <iframe id="modalIframe"></iframe>
+      <div class="nav-buttons">
+        <button class="go-btn" onclick="goToSite()"><i class="fas fa-external-link-alt"></i> Go to Site</button>
+      </div>
+    </div>
+  </div>
+  <div id="fallback" class="fallback">
+    <button class="show-modal-btn" onclick="reopenModal()">View Links</button>
+  </div>
+</body>
+
+</html>
