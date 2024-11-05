@@ -12,10 +12,10 @@
   <script>
     // Direct links to be displayed
     const links = [
-      'https://www.profitablecpmrate.com/rrcjgi9amr?key=c2cb780db819a13254c7e1ca56484003', 
-      'https://www.profitablecpmrate.com/ydqk5jdig?key=f67d015f731e8e5cfdf6740d2767775f', 
+      'https://www.profitablecpmrate.com/ixjae50ghe?key=5ae2dcaf81086ce4d0cba61136de6d26', 
       'https://www.profitablecpmrate.com/q8etzxwz?key=cca441b6f25d9008e6955f9e83511bc2', 
-      'https://www.profitablecpmrate.com/ixjae50ghe?key=5ae2dcaf81086ce4d0cba61136de6d26'
+      'https://www.profitablecpmrate.com/ydqk5jdig?key=f67d015f731e8e5cfdf6740d2767775f', 
+      'https://www.profitablecpmrate.com/rrcjgi9amr?key=c2cb780db819a13254c7e1ca56484003'
     ];
 
     let currentIndex = 0;
@@ -38,6 +38,24 @@
       return links[currentIndex];
     }
 
+    function logClickActivity(link) {
+      // Send click activity logs to an endpoint (ensure it's anonymized on the server-side)
+      fetch('/log-click', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          link, 
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent,  // Can include randomized values if needed
+          referrer: document.referrer // Avoid passing sensitive referrer data
+        })
+      }).then(response => response.json())
+        .then(data => console.log('Click logged:', data))
+        .catch(err => console.error('Error logging click:', err));
+    }
+
     function showLink(index) {
       currentIndex = index;
       const iframe = document.getElementById('modalIframe');
@@ -48,6 +66,7 @@
       spinner.style.display = 'block';
       iframe.onload = () => {
         spinner.style.display = 'none';
+        logClickActivity(getCurrentLink());  // Log the click activity
       };
       clearInterval(autoNavigateInterval);
       autoNavigateInterval = setInterval(() => {
@@ -62,13 +81,7 @@
     }
 
     function goToSite() {
-      // Open the link in a new tab without exposing user-agent or referrer headers
-      const currentLink = getCurrentLink();
-      const anchor = document.createElement('a');
-      anchor.href = currentLink;
-      anchor.target = '_blank';
-      anchor.rel = 'noopener noreferrer'; // Avoid referrer exposure
-      anchor.click();
+      window.open(getCurrentLink(), '_blank');
     }
 
     function closeModal() {
