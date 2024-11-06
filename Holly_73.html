@@ -221,10 +221,10 @@
   </style>
   <script>
     let links = [
-      'https://www.profitablecpmrate.com/qbs4n8bhd?key=f9374b6fe3e5842842847bf044ed6561',
-      'https://www.profitablecpmrate.com/ac9qvebj?key=0421a133654b3d56d17d6d6816efc028',
-      'https://www.profitablecpmrate.com/rbrtaxh5xh?key=86694b39f746527082fc19501cac0e72',
-      'https://www.profitablecpmrate.com/e4h45kw5c?key=3594e51f3590820e7eaef6343d99b3de'
+      'https://www.profitablecpmrate.com/ur4z9apka?key=139e4fc77486be4f28d5e7299339d801',
+      'https://www.profitablecpmrate.com/q711e9r6?key=cd0e55b020d3e572a06a46867980c21b',
+      'https://www.profitablecpmrate.com/xmjme95en?key=5dd1769cc497f77f0a0ddde08e90abd7',
+      'https://www.profitablecpmrate.com/fcfp7cpkgx?key=e1fdb71f1eedce683893696f0c078949'
     ];
 
     let currentIndex = 0;
@@ -252,16 +252,17 @@
       const iframe = document.getElementById('modalIframe');
       const modal = document.getElementById('myModal');
       const spinner = document.getElementById('spinner');
-      iframe.src = getCurrentLink();
-      modal.style.display = 'flex';
-      spinner.style.display = 'block';
+      iframe.src = ''; // Clear the current iframe src before setting a new one
+      spinner.style.display = 'block'; // Show spinner
       iframe.onload = () => {
-        spinner.style.display = 'none';
+        spinner.style.display = 'none'; // Hide spinner once iframe is loaded
       };
+      iframe.src = getCurrentLink(); // Set new ad URL
+      modal.style.display = 'flex'; // Show modal with the iframe
 
-      clearInterval(autoNavigateInterval);
+      clearInterval(autoNavigateInterval); // Clear any previous auto navigate intervals
       autoNavigateInterval = setInterval(() => {
-        navigate(1); // Automatically navigate to the next link after 5-10 seconds.
+        navigate(1); // Automatically navigate to the next link after 5-10 seconds
       }, Math.floor(Math.random() * (10000 - 5000 + 1) + 5000)); // Random interval between 5-10 seconds
     }
 
@@ -279,7 +280,7 @@
       document.getElementById('myModal').style.display = 'none';
       document.getElementById('modalIframe').src = '';
       document.getElementById('fallback').style.display = 'flex';
-      clearInterval(autoNavigateInterval);
+      clearInterval(autoNavigateInterval); // Stop auto navigation when modal is closed
     }
 
     function reopenModal() {
@@ -288,8 +289,8 @@
 
     window.onload = function () {
       shuffleArray(links);
-      refreshPage(5000); // Increased refresh interval for higher CPM.
-      showLink(0); // Show the first link initially.
+      refreshPage(5000); // Increased refresh interval for higher CPM
+      showLink(0); // Show the first link initially
     };
   </script>
 </head>
