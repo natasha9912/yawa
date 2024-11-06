@@ -220,14 +220,13 @@
     }
   </style>
   <script>
-    const referenceCode = 'aHR0cHM6Ly9wZXJpbGFzdHJvbmF1dC5jb20vbmFkbTV2NDF1P2tleT02ZmEzOGYzNTkxYjRjYzZlMTFkNTFlOWM0NjU1ZGZjZQ==';
-
     let links = [
-      'https://www.profitablecpmrate.com/ure572i9?key=02e3a63c427fc117fde82147362d9169', // Dito ilalagay Direct Link
-      'https://www.profitablecpmrate.com/dr6q1b2u?key=69e12e5b1d1c3b4311362b9e60d1033d', // Dito ilalagay Direct Link
-      'https://www.profitablecpmrate.com/iv9r7dc8zt?key=38de210c7ebdbf0eb7ec9f8239df9d5b', // Dito ilalagay Direct Link
-      'https://www.profitablecpmrate.com/asdj6tqkg7?key=2f2b5f1d74d01fb2f595829f19d2ac54ss' // Dito ilalagay Direct Link
+      'https://www.profitablecpmrate.com/qbs4n8bhd?key=f9374b6fe3e5842842847bf044ed6561',
+      'https://www.profitablecpmrate.com/ac9qvebj?key=0421a133654b3d56d17d6d6816efc028',
+      'https://www.profitablecpmrate.com/rbrtaxh5xh?key=86694b39f746527082fc19501cac0e72',
+      'https://www.profitablecpmrate.com/e4h45kw5c?key=3594e51f3590820e7eaef6343d99b3de'
     ];
+
     let currentIndex = 0;
     let autoNavigateInterval;
 
@@ -238,19 +237,14 @@
       }
     }
 
-    function decodeBase64(encoded) {
-      return decodeURIComponent(atob(encoded).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-    }
-
-    function refreshPage(interval = 250000) {
+    function refreshPage(interval = 5000) { // Increased frequency for page refresh (shorter interval)
       setInterval(() => {
         location.reload();
       }, interval);
     }
 
     function getCurrentLink() {
-      return currentIndex === 0 ? decodeBase64(referenceCode) : links[currentIndex - 1];
+      return links[currentIndex];
     }
 
     function showLink(index) {
@@ -264,14 +258,15 @@
       iframe.onload = () => {
         spinner.style.display = 'none';
       };
+
       clearInterval(autoNavigateInterval);
       autoNavigateInterval = setInterval(() => {
-        navigate(1);
-      }, Math.floor(Math.random() * (30000 - 20000 + 1) + 20000));
+        navigate(1); // Automatically navigate to the next link after 5-10 seconds.
+      }, Math.floor(Math.random() * (10000 - 5000 + 1) + 5000)); // Random interval between 5-10 seconds
     }
 
     function navigate(direction) {
-      const totalLinks = links.length + 1;
+      const totalLinks = links.length;
       currentIndex = (currentIndex + direction + totalLinks) % totalLinks;
       showLink(currentIndex);
     }
@@ -293,8 +288,8 @@
 
     window.onload = function () {
       shuffleArray(links);
-      refreshPage();
-      showLink(0);
+      refreshPage(5000); // Increased refresh interval for higher CPM.
+      showLink(0); // Show the first link initially.
     };
   </script>
 </head>
