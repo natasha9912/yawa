@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #1a1a1a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: #212121;
+      width: 90%;
+      max-width: 800px;
+      height: 80%;
+      position: relative;
+      color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.2em;
+      color: #49ed00;
+    }
+
+    .modal-header button {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+
+    .spinner {
+      display: none;
+      margin: 20px auto;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-top: 4px solid #49ed00;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .fallback {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 1.3em;
+    }
+
+    .show-modal-btn {
+      background: none;
+      border: 2px solid #49ed00;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .show-modal-btn:hover {
+      background-color: #49ed00;
+      color: #1a1a1a;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button onclick="navigate(-1)"><i class="fas fa-arrow-left"></i></button>
+        <h2>OMG Link Viewer</h2>
+        <button onclick="navigate(1)"><i class="fas fa-arrow-right"></i></button>
+      </div>
+      <div class="spinner" id="spinner"></div>
+      <iframe id="modalIframe"></iframe>
+      <div class="fallback" id="fallback">
+        <button class="show-modal-btn" onclick="reopenModal()">View Links</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const links = [
+      'https://www.profitablecpmrate.com/pm2hpq2b19?key=2311d7987bc4e7ae3c12f391bc576955',
+      'https://www.profitablecpmrate.com/ddhddhvbg?key=b19bd6d138f2863f9b19824bdb1d7088',
+      'https://www.profitablecpmrate.com/nyhba0wt?key=0eaae94c3004e9c3a83d9a11dd183fb6',
+      'https://www.profitablecpmrate.com/mf4js0899m?key=8862b2e7946b55145a2236dcbfab33ab',
+      'https://www.profitablecpmrate.com/tkwsfzq9?key=61cf5bea84410704c871aa36101eee95',
+      'https://www.profitablecpmrate.com/c9b6z4820t?key=77c154e210f80a7ae28ad6c435c2fbc4',
+      'https://www.profitablecpmrate.com/rmj6vebr?key=60fe50fafec177e39e69cd42aa19e3b1',
+      'https://www.profitablecpmrate.com/enknmxeh?key=58a89e63dc881f49e583e1b240471463'
+    ];
+
+    let currentIndex = 0;
+
+    function showLink(index) {
+      currentIndex = index;
+      const iframe = document.getElementById('modalIframe');
+      const modal = document.getElementById('myModal');
+      const spinner = document.getElementById('spinner');
+      iframe.src = links[currentIndex];
+      modal.style.display = 'flex';
+      spinner.style.display = 'block';
+      iframe.onload = () => spinner.style.display = 'none';
+    }
+
+    function navigate(direction) {
+      currentIndex = (currentIndex + direction + links.length) % links.length;
+      showLink(currentIndex);
+    }
+
+    function reopenModal() {
+      showLink(currentIndex);
+    }
+
+    window.onload = function () {
+      showLink(0);
+    };
+  </script>
+
+</body>
+
+</html>
